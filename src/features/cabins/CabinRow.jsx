@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins";
-import toast from "react-hot-toast";
+
 import { useState } from "react";
 import { useCreateCabin } from "./useCreateCabin";
 import { useDeleteCabin } from "./useDeleteCabin";
