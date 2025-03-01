@@ -1,11 +1,11 @@
 // import styled from 'styled-components';
-import BookingRow from "features/bookings/BookingRow";
-import Spinner from "ui/Spinner";
-import Table from "ui/Table";
-import { useBookings } from "features/bookings/useBookings";
-import Menus from "ui/Menus";
-import Pagination from "ui/Pagination";
-import Empty from "ui/Empty";
+import Spinner from "../../ui/Spinner";
+import Table from "../../ui/Table";
+import { useBookings } from "./useBookings";
+import Menus from "../../ui/Menus";
+import Pagination from "../../ui/Pagination";
+import Empty from "../../ui/Empty";
+import BookingRow from "./BookingRow";
 
 function BookingTable() {
   const { bookings, count, isLoading } = useBookings();
@@ -29,9 +29,9 @@ function BookingTable() {
           <div></div>
         </Table.Header>
 
-        {/* {bookings.map((booking) => (
-            <BookingRow key={booking.id} booking={booking} />
-          ))} */}
+        {bookings.map((booking) => (
+          <BookingRow key={booking.id} booking={booking} />
+        ))}
 
         {/* Render props! */}
         <Table.Body

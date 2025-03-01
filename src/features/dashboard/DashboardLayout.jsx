@@ -1,47 +1,43 @@
-import styled from "styled-components";
+import { createContext, useContext, useEffect } from "react";
+import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
-import DurationChart from "features/dashboard/DurationChart";
-import SalesChart from "features/dashboard/SalesChart";
-import Stats from "features/dashboard/Stats";
-import TodayActivity from "features/check-in-out/TodayActivity";
-import { useRecentBookings } from "features/dashboard/useRecentBookings";
-import Spinner from "ui/Spinner";
-import { useRecentStays } from "./useRecentStays";
-import { useCabins } from "features/cabins/useCabins";
+const DarkModeContext = createContext();
 
-const StyledDashboardLayout = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: auto 34rem auto;
-  gap: 2.4rem;
-`;
+function DarkModeProvider({ children }) {
+  const [isDarkMode, setIsDarkMode] = useLocalStorageState(
+    window.matchMedia("(prefers-color-scheme: dark)").matches,
+    "isDarkMode"
+  );
 
-/*
-We need to distinguish between two types of data here:
-1) BOOKINGS: the actual sales. For example, in the last 30 days, the hotel might have sold 10 bookings online, but these guests might only arrive and check in in the far future (or not, as booking also happen on-site)
-2) STAYS: the actual check-in of guests arriving for their bookings. We can identify stays by their startDate, together with a status of either 'checked-in' (for current stays) or 'checked-out' (for past stays)
-*/
+  useEffect(
+    function () {
+      if (isDarkMode) {
+        document.documentElement.classList.add("dark-mode");
+        document.documentElement.classList.remove("light-mode");
+      } else {
+        document.documentElement.classList.add("light-mode");
+        document.documentElement.classList.remove("dark-mode");
+      }
+    },
+    [isDarkMode]
+  );
 
-function DashboardLayout() {
-  const { isLoading: isLoading1, bookings, numDays } = useRecentBookings();
-  const { isLoading: isLoading2, confirmedStays } = useRecentStays();
-  const { isLoading: isLoading3, cabins } = useCabins();
-
-  if (isLoading1 || isLoading2 || isLoading3) return <Spinner />;
+  function toggleDarkMode() {
+    setIsDarkMode((isDark) => !isDark);
+  }
 
   return (
-    <StyledDashboardLayout>
-      <Stats
-        bookings={bookings}
-        confirmedStays={confirmedStays}
-        numDays={numDays}
-        cabinCount={cabins.length}
-      />
-      <TodayActivity />
-      <DurationChart confirmedStays={confirmedStays} />
-      <SalesChart bookings={bookings} numDays={numDays} />
-    </StyledDashboardLayout>
+    <DarkModeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
+      {children}
+    </DarkModeContext.Provider>
   );
 }
 
-export default DashboardLayout;
+function useDarkMode() {
+  const context = useContext(DarkModeContext);
+  if (context === undefined)
+    throw new Error("DarkModeContext was used outside of DarkModeProvider");
+  return context;
+}
+
+export { DarkModeProvider, useDarkMode };
