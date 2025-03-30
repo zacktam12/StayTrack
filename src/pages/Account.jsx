@@ -5,19 +5,29 @@ import Row from "../ui/Row";
 
 function Account() {
   return (
-    <>
-      <Heading as="h1">Update your account</Heading>
+    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md">
+      <Heading as="h1" className="text-center mb-6">
+        Update Your Account
+      </Heading>
 
-      <Row>
-        <Heading as="h3">Update user data</Heading>
-        <UpdateUserDataForm />
-      </Row>
+      <section className="mb-8">
+        <Heading as="h3" className="mb-2">
+          Update User Data
+        </Heading>
+        <Row>
+          <UpdateUserDataForm />
+        </Row>
+      </section>
 
-      <Row>
-        <Heading as="h3">Update password</Heading>
-        <UpdatePasswordForm />
-      </Row>
-    </>
+      <section>
+        <Heading as="h3" className="mb-2">
+          Update Password
+        </Heading>
+        <Row>
+          <UpdatePasswordForm />
+        </Row>
+      </section>
+    </div>
   );
 }
 
