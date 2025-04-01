@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import LoginForm from "../features/authentication/LoginForm";
+import SignupForm from "../features/authentication/SignupForm";
 import Logo from "../ui/Logo";
 import Heading from "../ui/Heading";
 
@@ -18,7 +18,7 @@ function Login() {
     <LoginLayout>
       <Logo />
       <Heading as="h4">Log in to your account</Heading>
-      <LoginForm />
+      <SignupForm />
     </LoginLayout>
   );
 }

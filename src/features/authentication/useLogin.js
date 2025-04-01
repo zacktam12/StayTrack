@@ -18,6 +18,5 @@ export function useLogin() {
       toast.error("Provided email or password are incorrect");
     },
   });
-
   return { login, isLoading };
 }
